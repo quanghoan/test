@@ -1,0 +1,14 @@
+= form_for [:examiner, @level_category] do |f|
+  = render 'shared/error_messages', object: f.object
+  div class="field"
+    = f.label :name
+    br
+    = f.text_field :name, class: "form-control"
+
+  div class="field"
+    = f.label :description
+    br
+    = f.text_area :description, rows: 10, class: "form-control"
+  
+  div class="actions"
+    = f.submit "Update", class: "btn btn-primary"

@@ -1,0 +1,15 @@
+- provide(:title, "Create new type question")
+= form_for [:examiner, @type_question] do |f|
+  = render 'shared/error_messages', object: f.object
+  .col-md-8
+    .field
+      = f.label :name
+      br
+      = f.text_field :name, class: "form-control"
+    .field
+      = f.label :description
+      br
+      = f.text_area :description, rows: 10, class: "form-control"
+
+    .actions
+    = f.submit "Submit", class: "btn btn-primary"

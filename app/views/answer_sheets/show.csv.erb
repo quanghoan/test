@@ -1,0 +1,26 @@
+<%= CSV.generate_line ["Name", "#{@answer_sheet.get_user.name}"], {row_sep: nil} %>
+<%= CSV.generate_line ["Email", "#{@answer_sheet.get_user.email}"], {row_sep: nil} %>
+<%= CSV.generate_line ["Name of exam", "#{@answer_sheet.get_examination.name}"],
+  {row_sep: nil} %>
+<%= CSV.generate_line ["Date", "#{@answer_sheet.updated_at}"], {row_sep: nil} %>
+<%= CSV.generate_line ["Correct", "#{@answer_sheet.score}"], {row_sep: nil} %>
+<%= CSV.generate_line ["Number of question", "#{@answer_sheet.get_examination.questions.count}"], {row_sep: nil} %>
+<% @answer_sheet.answers.each_with_index do |answer, index| %>
+  <%= CSV.generate_line ["Question #{index+1}", "#{answer.question.content}"], {row_sep: nil} %>
+  <% if answer.question.is_choice_question? %>
+    <% answer.question.sample_answers.each_with_index do |sample_answer, index| %>
+      <% if answer.sample_answer ? answer.sample_answer.id == sample_answer.id : false %>
+        <%= CSV.generate_line ["Option #{index+1}", "#{sample_answer.content}", "Selected"], {row_sep: nil} %>
+      <% else %>
+        <%= CSV.generate_line ["Option #{index+1}", "#{sample_answer.content}"], {row_sep: nil} %>
+      <% end %>
+    <% end %>
+    <% if answer.is_correct %>
+      <%= CSV.generate_line ["Result", "Correct"], {row_sep: nil} %>
+    <% else %>
+      <%= CSV.generate_line ["Result", "Incorrect"], {row_sep: nil} %>
+    <% end %>
+  <% else %>
+    <%= CSV.generate_line ["Answer", "#{answer.content}"], {row_sep: nil} %>
+  <% end %>
+<% end %>

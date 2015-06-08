@@ -1,0 +1,52 @@
+- provide :title, @session_examination.name
+.col-md-8
+  #content
+    = form_for :session_examination,
+          url: examiner_update_status_session_exam_path(@session_examination),
+          method: :patch do |f|
+      - case @session_examination.status
+      - when "Finished"
+        h1 This session exam finished
+      - when "Ready"
+        = f.hidden_field :status, value: "Started"
+        = f.submit "Start this exam"
+      - when "Started"
+        = f.hidden_field :status, value: "Finished"
+        = f.submit "Finish this exam"
+      - when "Pausing"
+        = f.hidden_field :status, value: "Started"
+        = f.submit "Continue this exam"
+        
+    - if @session_examination.status == "Started"     
+      = form_for :session_examination,
+            url: examiner_update_status_session_exam_path(@session_examination),
+            method: :patch do |f|
+        = f.hidden_field :status, value: "Pausing"
+        = f.submit "Pause this exam"
+
+    h1
+      = @session_examination.name
+      = "-#{@session_examination.examination.name}"
+    li.list-group-item.list-group-item-info
+      = @session_examination.description
+
+    br
+    = link_to 'Edit description',
+      edit_examiner_session_examination_path(@session_examination)
+    
+.form-horizontal
+  .col-md-8
+    h1
+      = "Examinees of session #{@session_examination.name}"
+      br
+      = link_to 'Show this examination',
+      examiner_examination_path(@session_examination.examination)
+    h2 List of examiners
+    = link_to 'Select examinees for this session',
+      examiner_user_session_exam_path(@session_examination)
+    br
+    - @examinees.each_with_index do |examinee, index|
+      li
+        = examinee.name
+        br
+        

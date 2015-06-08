@@ -1,0 +1,25 @@
+- provide :title, 'Level category list'
+h1 Level category list
+div class="col-sm-3 col-md-12"
+  = link_to "Add new Level category", new_examiner_level_category_path, 
+                                  class: "btn btn-default btn-primary"
+  br
+  br
+  ul class="list-group"
+    - @level_categories.each do |level_category|
+      li class="list-group-item list-group-item-info"
+        b
+        = link_to level_category.name,
+                examiner_level_category_path(level_category)
+        b
+        br
+        = "Added #{time_ago_in_words level_category.created_at} ago."
+        = link_to "Details", examiner_level_category_path(level_category),
+                                  class: "btn btn-xs btn-info"
+
+        = " "
+        = link_to "Delete", examiner_level_category_path(level_category),
+                                  class: "btn btn-xs btn-danger",
+                                  method: :delete,
+                                  data: {confirm: 'Are you sure?'}
+    = paginate @level_categories

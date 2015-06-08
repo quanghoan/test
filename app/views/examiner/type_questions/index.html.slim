@@ -1,0 +1,19 @@
+- provide :title, 'Type Question list'
+h1 Type Question list
+div class="col-sm-3 col-md-12"
+  = link_to "Add new type question", new_examiner_type_question_path, 
+                                  class: "btn btn-default btn-primary"
+  br
+  br
+  ul class="list-group"
+    - @type_questions.each do |type_question|
+      li class="list-group-item list-group-item-info"
+        b
+          = link_to type_question.name,
+                examiner_type_question_path(type_question)
+          br
+        = "Added #{time_ago_in_words type_question.created_at} ago."
+        = link_to "Delete", examiner_type_question_path(type_question),
+                                  class: "btn btn-xs btn-danger",
+                                  method: :delete,
+                                  data: {confirm: 'Are you sure?'}

@@ -1,0 +1,25 @@
+- provide :title, 'Session list'
+h1 Session list
+div class="col-sm-3 col-md-12"
+  = link_to "Add new Session", new_examiner_session_examination_path, 
+                                  class: "btn btn-default btn-primary"
+  br
+  br
+  ul class="list-group"
+    - @session_examinations.each do |session_examination|
+      li class="list-group-item list-group-item-info"
+        b
+        = link_to session_examination.name,
+                examiner_session_examination_path(session_examination)
+        b
+        br
+        = "Added #{time_ago_in_words session_examination.created_at} ago."
+        = link_to "Details", examiner_session_examination_path(session_examination),
+                                  class: "btn btn-xs btn-info"
+
+        = " "
+        = link_to "Delete", examiner_session_examination_path(session_examination),
+                                  class: "btn btn-xs btn-danger",
+                                  method: :delete,
+                                  data: {confirm: 'Are you sure?'}
+    = paginate @session_examinations

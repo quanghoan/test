@@ -1,0 +1,24 @@
+.content
+  b
+  | Question:
+  div
+    li class="list-group-item list-group-item-info"
+      = @question.content
+      br
+  
+  = "Answer:"
+  b
+  div
+    - if @question.is_choice_question?
+      table class="table table-bordered"
+        - @sample_answers.each do |option|
+          tr
+            - unless option.is_correct
+              td
+                = option.content
+            - else
+              td class="success"
+                = option.content
+    - else
+      = @question.answer_key
+  = link_to 'Edit', edit_examiner_question_path(@question), remote: true, class: "btn btn-warning"

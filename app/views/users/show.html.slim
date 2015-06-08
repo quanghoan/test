@@ -1,0 +1,29 @@
+.col-md-4
+  h2 List of exams that you have been added
+  - @user_session_exams.each do |user_exam|
+    li
+      = user_exam.session_examination.examination.name
+      - case user_exam.session_examination.status
+      - when "Started"
+        = form_for TimeInfo.new do |f|
+          = f.hidden_field :start_time, value: Time.now
+          = f.hidden_field :user_session_exam_id, value: user_exam.id
+          = f.submit 'Start now'
+      - when "Pausing"
+        = "This exam being paused"
+      - when "Finished"
+        = "This exam finished"
+      - else
+        = "This exam hasn't started yet"
+      br
+.col-md-4
+  h2 List of results that you have done
+  - @answer_sheets.each do |answer_sheet|
+    li class="list-group-item list-group-item-info"
+      = link_to answer_sheet.get_examination.name, answer_sheet_path(answer_sheet)
+      = " | "
+      = link_to 'Export to CSV', answer_sheet_path(answer_sheet, format: :csv),
+      class: "btn btn-xs btn-primary"
+      br
+      = "Tested #{time_ago_in_words answer_sheet.created_at} ago."
+  = paginate @answer_sheets

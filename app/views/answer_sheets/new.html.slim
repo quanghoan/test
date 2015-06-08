@@ -1,0 +1,30 @@
+h3 Your exam is running...
+#data-pjax-container
+  div style="float: right;position:fixed;top:80px;right:1100px;"
+    | Time left: 
+    span id="time_left"
+      = second_to_time(@time_info.get_time_limit - (Time.now - @time_info.start_time).to_i)
+
+= form_for @answer_sheet do |f|
+  - @answer_sheet.answers.build
+  .col-md-8
+    - @questions.sort_by{rand}.each_with_index do |question, index|
+      = f.fields_for :answers do |builder|
+        = builder.hidden_field :question_id, value: question.id
+        b
+        = "Question #{index+1}."
+        = question.content
+        - if question.is_choice_question?
+          - question.sample_answers.each do |option|
+            .radio
+              = builder.radio_button :sample_answer_id, option.id
+              = builder.label :sample_answer_id, option.content
+        - else
+          .field
+            = builder.label :content, "Answer"
+            br
+            = builder.text_area :content, rows: 5, class: "form-control"
+          
+    = f.hidden_field :user_session_exam_id, value: @time_info.user_session_exam_id
+    = f.hidden_field :time_info_id, value: @time_info.id
+    = f.submit "Submit", id: "submit_answer_sheet", class: "btn btn-default btn-primary"

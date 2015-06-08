@@ -1,0 +1,37 @@
+h2
+  = "There are #{@answer_sheet.score} correct answers"
+  br
+  = "Started at: #{@answer_sheet.time_info.start_time}"
+  br
+  = "Submited at: #{@answer_sheet.created_at}"
+  br
+  = "Time to test: "
+  = second_to_time((@answer_sheet.created_at - @answer_sheet.time_info.start_time).to_i)
+  br
+  = "Time for this exam: #{second_to_time(@answer_sheet.get_examination.time_limit.minutes)}"
+.col-md-8
+  - @answer_sheet.answers.each_with_index do |answer, index|
+    div
+      b
+        = "Question #{index+1}. "
+      = answer.question.content
+      br
+    - if answer.question.is_choice_question?
+      - answer.question.sample_answers.each do |sample_answer|
+        .radio
+          = radio_button("sample_answer", sample_answer.question.id,
+            sample_answer.id,
+            checked: answer.sample_answer ? answer.sample_answer.id == sample_answer.id : false,
+              disabled: true)
+          = sample_answer.content
+
+      .checkbox.inline
+        = check_box("answer", :answer_id,
+          checked: answer.sample_answer ? answer.sample_answer.is_correct : false,
+          disabled: true)
+        = "Correct"
+    
+    - else
+      b
+        = "Answer:"
+      = answer.content

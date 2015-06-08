@@ -1,0 +1,9 @@
+- provide :title, @type_question.name
+.col-md-8
+h1
+  = @type_question.name
+li class="list-group-item list-group-item-info"
+  = @type_question.description
+br
+= link_to 'Edit description', edit_examiner_type_question_path(@type_question),
+    class: "btn btn-warning"

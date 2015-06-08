@@ -1,0 +1,25 @@
+- provide(:title, "Create | Choose an exam for this session:
+        - @exams.each do |exam|
+          .radio
+            = f.radio_button :exam_id, exam.id
+            = f.labnew session exam")
+= form_for [:examiner, @session_examination] do |f|
+  = render 'shared/error_messages', object: f.object
+  .col-md-8
+    .field
+      = f.label :name
+      br
+      = f.text_field :name, class: "form-control"
+
+    .field
+      = f.label :description
+      br
+      = f.text_area :description, rows: 10, class: "form-control"
+    .field
+      | Choose an examination for this session:
+      - @examinations.each do |examination|
+        .radio
+          = f.radio_button :examination_id, examination.id
+          = f.label :examination_id, examination.name
+    .actions
+      = f.submit "Submit", class: "btn btn-primary"

@@ -1,0 +1,12 @@
+.col-md-8
+  h1 Select examinees for this exam
+  = link_to @session_examination.name, examiner_session_examination_path(@session_examination)
+
+  = form_for :session_examination, url: examiner_user_session_exam_path(@session_examination),
+              method: :patch do |f|
+    = collection_check_boxes(:session_examination, :user_ids, User.all, :id, :name) do |u|
+      ul class ="list-group"
+        li class="list-group-item list-group-item-info"
+          = u.label(:"data-value" => u.value) {u.check_box + u.text}
+    .actions
+      = f.submit "Submit", class: "btn btn-primary"

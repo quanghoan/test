@@ -1,0 +1,11 @@
+.col-md-8
+  h1 Select questions for exam
+  = link_to @examination.name, examiner_examination_path(@examination)
+
+  = form_for :examination, url: examiner_exam_question_path(@examination), method: :patch do |f|
+    = collection_check_boxes(:examination, :question_ids, Question.all, :id, :content) do |q|
+      ul class ="list-group"
+        li class="list-group-item list-group-item-info"
+          = q.label(:"data-value" => q.value) {q.check_box + q.text}
+    .actions
+    = f.submit "Submit", class: "btn btn-primary"

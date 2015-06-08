@@ -1,0 +1,41 @@
+- provide :title, @examination.name
+.col-md-8
+  #content
+    h1
+      = @examination.name
+    p
+      = @examination.description
+    = link_to 'Edit description', edit_examiner_examination_path(@examination)
+    br
+    = link_to 'Create a session for this exam', new_examiner_session_examination_path
+.form-horizontal
+  .col-md-8
+    h1
+      = "#{@examination.name} questions"
+    - unless @examination.is_running?
+      = link_to 'Select questions for this exam',
+        examiner_exam_question_path(@examination)
+    - else
+      = "This examination is running, so you can't change questions."
+    br
+    - @questions.each_with_index do |question, index|
+      li  
+        = "Question #{index+1}. "
+        = question.content
+        br
+        = "Answer:"
+        b
+        div
+          - if question.is_choice_question?
+            table class="table table-bordered"
+              - question.sample_answers.each do |option|
+                tr
+                  - unless option.is_correct
+                    td
+                      = option.content
+                  - else
+                    td class="success"
+                      = option.content
+          - else
+            = question.answer_key
+    

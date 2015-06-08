@@ -1,0 +1,13 @@
+.col-md-8
+  h1 Select parrents for this category
+  = link_to @category.name, examiner_category_path(@category)
+
+  = form_for :category, url: examiner_relationship_path(@category),
+              method: :patch do |f|
+    = collection_check_boxes(:category, :parrent_ids, Category.all, :id,
+      :name) do |c|
+      ul class ="list-group"
+        li class="list-group-item list-group-item-info"
+          = c.label(:"data-value" => c.value) {c.check_box + c.text}
+    .actions
+    = f.submit "Submit", class: "btn btn-primary"

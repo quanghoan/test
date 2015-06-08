@@ -1,0 +1,28 @@
+- provide :title, @category.name
+.col-md-8
+  #content
+    h1
+      = @category.name
+    li class="list-group-item list-group-item-info"
+      = @category.description
+    br
+    = link_to 'Edit description', edit_examiner_category_path(@category),
+      remote: true, class: "btn btn-warning"
+
+.form-horizontal
+  .col-md-4
+    h1
+      = "#{@category.name} questions"
+    p
+      = link_to "Show level category content", examiner_category_path(@category)
+    - @questions.each_with_index do |question, index|
+      li
+        = link_to "Question #{index+1}", examiner_question_path(question), remote: true
+        = link_to 'Destroy', examiner_question_path(question),
+          method: :delete, data:{confirm: 'Are you sure?'}, 
+          class: "btn btn-xs btn-danger"
+
+    br
+    = link_to 'Add a question',
+      new_examiner_question_path(category_id: @category.id),
+      remote: true, class: "btn btn-primary"

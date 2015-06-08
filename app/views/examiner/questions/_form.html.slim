@@ -1,0 +1,33 @@
+= form_for [:examiner, @question] do |f|
+  = render 'shared/error_messages', object: f.object
+  .field
+    = f.label :content, 'Question'
+    br
+    = f.text_area :content, rows: 3, class: "form-control"
+    br
+  .field
+  = f.label :answer_key, 'Key'
+  br
+  = f.text_area :answer_key, rows: 3, class: "form-control"
+  br
+  div id="type_question" class="radio"
+    - @type_questions.each do |type_question|
+      = f.radio_button :type_question_id, type_question.id
+      = type_question.name
+      br
+ 
+  #answer-area
+    = f.fields_for :sample_answers do |builder|
+      
+      table
+        tr
+          td
+            div class="checkbox inline"
+              = builder.check_box :is_correct
+              = builder.label :is_correct, 'Correct?'
+          td
+            .field
+              = builder.text_field :content, class: 'form-control'
+  
+  = f.hidden_field :category_id, value: @category.id
+  = f.submit 'Submit', class: "btn btn-primary"
