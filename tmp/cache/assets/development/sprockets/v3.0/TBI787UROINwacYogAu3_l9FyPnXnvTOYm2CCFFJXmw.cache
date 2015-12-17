@@ -1,0 +1,68 @@
+I"(function() {
+  var hhmmssToSecond, secondToHHMMSS;
+
+  secondToHHMMSS = void 0;
+
+  hhmmssToSecond = void 0;
+
+  secondToHHMMSS = function(seconds) {
+    var date, hh, mm, ss;
+    date = void 0;
+    hh = void 0;
+    mm = void 0;
+    ss = void 0;
+    date = new Date(seconds * 1000);
+    hh = date.getUTCHours();
+    mm = date.getUTCMinutes();
+    ss = date.getSeconds();
+    if (hh < 10) {
+      hh = '0' + hh;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    if (ss < 10) {
+      ss = '0' + ss;
+    }
+    return hh + ':' + mm + ':' + ss;
+  };
+
+  hhmmssToSecond = function(s) {
+    var hours, minutes, seconds, time;
+    hours = void 0;
+    minutes = void 0;
+    seconds = void 0;
+    time = void 0;
+    time = s.split(':');
+    hours = parseInt(time[0], 10);
+    minutes = parseInt(time[1], 10);
+    seconds = parseInt(time[2], 10);
+    return hours * 3600 + minutes * 60 + seconds;
+  };
+
+  jQuery(function() {
+    var countDown, id, seconds, timeLeft;
+    id = void 0;
+    seconds = void 0;
+    timeLeft = void 0;
+    countDown = void 0;
+    timeLeft = $('#time_left');
+    if (!timeLeft.length) {
+      return;
+    }
+    seconds = hhmmssToSecond(timeLeft.text());
+    countDown = function() {
+      seconds = seconds - 1;
+      if (seconds < 0) {
+        clearInterval(id);
+        $('#submit_answer_sheet').click();
+        alert('Exam time has expired, your examination will be submitted automatically');
+        return;
+      }
+      timeLeft.text(secondToHHMMSS(seconds));
+    };
+    return id = setInterval(countDown, 1000);
+  });
+
+}).call(this);
+:ET

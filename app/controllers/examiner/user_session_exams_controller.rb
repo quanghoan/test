@@ -19,6 +19,7 @@ class Examiner::UserSessionExamsController < ApplicationController
   end
 
   private
+  
   def user_session_exam_params
     params.require(:session_examination).permit user_ids: []
   end

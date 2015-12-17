@@ -1,8 +1,4 @@
-- provide(:title, "Create | Choose an exam for this session:
-        - @exams.each do |exam|
-          .radio
-            = f.radio_button :exam_id, exam.id
-            = f.labnew session exam")
+- provide(:title, "Create |")
 = form_for [:examiner, @session_examination] do |f|
   = render 'shared/error_messages', object: f.object
   .col-md-8

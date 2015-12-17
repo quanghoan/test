@@ -12,7 +12,7 @@ class AnswerSheetsController < ApplicationController
     end
   end
 
-  def new
+  def new  
     @answer_sheet = AnswerSheet.new
     @time_info = TimeInfo.find params[:time_info_id]
     user_session_exam = UserSessionExam.find(@time_info.user_session_exam_id)

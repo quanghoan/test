@@ -23,8 +23,8 @@ h3 Your exam is running...
           .field
             = builder.label :content, "Answer"
             br
-            = builder.text_area :content, rows: 5, class: "form-control"
+            = builder.text_area :content, rows: 5, class:"form-control"
           
     = f.hidden_field :user_session_exam_id, value: @time_info.user_session_exam_id
     = f.hidden_field :time_info_id, value: @time_info.id
-    = f.submit "Submit", id: "submit_answer_sheet", class: "btn btn-default btn-primary"
+    = f.submit "Submit", class: "btn btn-default btn-primary"

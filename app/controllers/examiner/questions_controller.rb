@@ -22,7 +22,7 @@ class Examiner::QuestionsController < ApplicationController
     if @question.save
       redirect_to examiner_category_path @question.category
     else
-      render "new"
+      render 'new'
     end
   end
 
